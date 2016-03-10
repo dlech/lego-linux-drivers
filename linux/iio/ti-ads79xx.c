@@ -3,7 +3,7 @@
  *
  * Copyright 2016 David Lechner <david@lechnology.com>
  *
- * Based on iio/ti_ads79xx.c:
+ * Based on iio/ad7923.c:
  * Copyright 2011 Analog Devices Inc (from AD7923 Driver)
  * Copyright 2012 CS Systemes d'Information
  *
@@ -486,26 +486,46 @@ static int ti_ads79xx_remove(struct spi_device *spi)
 }
 
 static const struct spi_device_id ti_ads79xx_id[] = {
-	{"ti-ads7950", ADS7950},
-	{"ti-ads7951", ADS7951},
-	{"ti-ads7952", ADS7952},
-	{"ti-ads7953", ADS7953},
-	{"ti-ads7954", ADS7954},
-	{"ti-ads7955", ADS7955},
-	{"ti-ads7956", ADS7956},
-	{"ti-ads7957", ADS7957},
-	{"ti-ads7958", ADS7958},
-	{"ti-ads7959", ADS7959},
-	{"ti-ads7960", ADS7960},
-	{"ti-ads7961", ADS7961},
+	{ "ti-ads7950", ADS7950 },
+	{ "ti-ads7951", ADS7951 },
+	{ "ti-ads7952", ADS7952 },
+	{ "ti-ads7953", ADS7953 },
+	{ "ti-ads7954", ADS7954 },
+	{ "ti-ads7955", ADS7955 },
+	{ "ti-ads7956", ADS7956 },
+	{ "ti-ads7957", ADS7957 },
+	{ "ti-ads7958", ADS7958 },
+	{ "ti-ads7959", ADS7959 },
+	{ "ti-ads7960", ADS7960 },
+	{ "ti-ads7961", ADS7961 },
 	{ }
 };
 MODULE_DEVICE_TABLE(spi, ti_ads79xx_id);
+
+#ifdef CONFIG_OF
+static const struct of_device_id ti_ads79xx_of_match[] = {
+	{ .compatible = "ti,ads7950" },
+	{ .compatible = "ti,ads7951" },
+	{ .compatible = "ti,ads7952" },
+	{ .compatible = "ti,ads7953" },
+	{ .compatible = "ti,ads7954" },
+	{ .compatible = "ti,ads7955" },
+	{ .compatible = "ti,ads7956" },
+	{ .compatible = "ti,ads7957" },
+	{ .compatible = "ti,ads7958" },
+	{ .compatible = "ti,ads7959" },
+	{ .compatible = "ti,ads7960" },
+	{ .compatible = "ti,ads7961" },
+	{ }
+};
+MODULE_DEVICE_TABLE(of, ti_ads79xx_of_match);
+#endif
 
 static struct spi_driver ti_ads79xx_driver = {
 	.driver = {
 		.name	= "ti-ads79xx",
 		.owner	= THIS_MODULE,
+		.of_match_table = of_match_ptr(ti_ads79xx_of_match),
 	},
 	.probe		= ti_ads79xx_probe,
 	.remove		= ti_ads79xx_remove,
